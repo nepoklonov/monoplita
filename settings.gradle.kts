@@ -1,4 +1,4 @@
-rootProject.name = "kmp"
+rootProject.name = "monoplita"
 
 pluginManagement {
     resolutionStrategy {

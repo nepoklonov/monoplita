@@ -5,11 +5,9 @@ plugins {
 val kotlinxHtmlVersion = project.property("kotlinx.html.version") as String
 val kotlinxSerializationVersion = project.property("kotlinx.serialization.version") as String
 val kotlinxCoroutinesVersion = project.property("kotlinx.coroutines.version") as String
-val kotlinWrappersSuffix = project.property("kotlin.wrappers.suffix") as String
+val kotlinWrappersVersion = project.property("kotlin.wrappers.version") as String
 
-fun kotlinWrappers(target: String): String =
-    "org.jetbrains.kotlin-wrappers:kotlin-$target"
-
+fun kotlinWrappers(target: String): String = "org.jetbrains.kotlin-wrappers:kotlin-$target"
 
 repositories {
     mavenCentral()
@@ -22,7 +20,7 @@ kotlin {
         browser {
             runTask {
                 devServer?.run {
-                    proxy = mutableMapOf("/" to "http://localhost:8080")
+                    proxy = mutableMapOf("/" to "http://localhost:5793")
                     port = 3000
                 }
             }
@@ -39,7 +37,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-html:$kotlinxHtmlVersion")
 
-    implementation(enforcedPlatform(kotlinWrappers("wrappers-bom:0.0.1-${kotlinWrappersSuffix}")))
+    implementation(enforcedPlatform(kotlinWrappers("wrappers-bom:${kotlinWrappersVersion}")))
     implementation(kotlinWrappers("react"))
     implementation(kotlinWrappers("react-dom"))
     implementation(kotlinWrappers("react-router-dom"))
