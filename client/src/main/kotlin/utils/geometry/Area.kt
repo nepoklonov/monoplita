@@ -6,6 +6,11 @@ data class Area(
     val points: List<Point> = emptyList()
 ) {
     fun addPoint(point: Point) = copy(points = points + point)
+    fun movePoint(pointIndex: Int, newLocation: Point) = copy(
+        points = points.toMutableList().also {
+            it[pointIndex] = newLocation
+        }
+    )
 
     val perimeter: Double
         get() = asPairSequence().sumOf { (p1, p2) ->

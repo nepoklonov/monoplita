@@ -58,6 +58,14 @@ val projectComponent = fc<ProjectProps> { props ->
             attrs.src = props.imageUrl
             attrs.areas = areas
             attrs.controlPoints = controlPoints.toList().filterNotNull()
+            attrs.movePoint = { pointIndex: Int, point: Point ->
+                console.log(pointIndex)
+                areas = areas.toMutableList().also {
+                    selectedArea?.let { index ->
+                        it[index] = it[index].movePoint(pointIndex, point)
+                    }
+                }
+            }
             attrs.click = { point ->
                 when (currentMode) {
                     Mode.Area -> areas = areas.toMutableList().also {
