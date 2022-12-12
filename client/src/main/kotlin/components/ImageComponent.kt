@@ -15,12 +15,10 @@ import styled.css
 import styled.styledDiv
 import styled.styledImg
 import styled.styledSvg
-import utils.svg.circle
 import utils.geometry.Area
 import utils.geometry.Point
 import utils.geometry.p
-import utils.svg.polygon
-import utils.svg.rect
+import utils.svg.*
 import utils.toMouseEvent
 
 external interface ImageComponentProps : Props {
@@ -68,23 +66,10 @@ val imageComponent = fc<ImageComponentProps> { props ->
                 height = 100.pct
             }
 
-            area.points.forEachIndexed { index, (x, y) ->
-                circle(x, y, 3) {
-                    attrs.onMouseDownFunction = { event ->
-                        event.preventDefault()
-                        event.stopPropagation()
-                        document.onmousemove = {
-                            props.movePoint(index, it.offsetX p it.offsetY)
-                        }
-                        document.onmouseup = fun(e: MouseEvent) {
-                            e.preventDefault()
-                            e.stopPropagation()
-                            document.onmousemove = null
-                            document.onmouseup = null
-                        }
-                    }
-                }
+            area.points.forEachIndexed { index, point ->
+                point(point, index, movePoint = props.movePoint)
             }
+
             props.controlPoints.forEach { (x, y) -> circle(x, y, 3) { attrs.fill = "#aaffaa" } }
         }
         styledImg(src = props.src) {

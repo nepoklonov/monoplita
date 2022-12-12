@@ -24,7 +24,7 @@ data class Area(
             x1 * y2 - y1 * x2
         }.absoluteValue / 2
 
-    fun toSvgPath() = points.joinToString(separator = " ") { (x, y) -> "$x,$y" }
+    fun toSvgPath() = points.joinToString(separator = " ")
 
     private fun asPairSequence(): Sequence<Pair<Point, Point>> {
         if (isNotEmpty()) return (points.asSequence() + points[0]).zipWithNext()
