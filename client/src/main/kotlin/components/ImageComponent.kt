@@ -23,7 +23,7 @@ import utils.svg.polygon
 import utils.svg.rect
 import utils.toMouseEvent
 
-interface ImageComponentProps : Props {
+external interface ImageComponentProps : Props {
     var src: String
     var mode: Mode?
     var areas: List<Area>
@@ -44,6 +44,12 @@ val imageComponent = fc<ImageComponentProps> { props ->
             border(1.px, BorderStyle.solid, Color("#ddd"))
         }
         styledSvg {
+
+            polygon {
+                attrs.points = area.toSvgPath()
+                attrs.fill = "#aa0000aa"
+            }
+
             rect {
                 attrs {
                     width = 100.pct.toString()
@@ -60,12 +66,6 @@ val imageComponent = fc<ImageComponentProps> { props ->
                 position = Position.absolute
                 width = 100.pct
                 height = 100.pct
-            }
-
-
-            polygon {
-                attrs.points = area.toSvgPath()
-                attrs.fill = "#aa0000aa"
             }
 
             area.points.forEachIndexed { index, (x, y) ->
