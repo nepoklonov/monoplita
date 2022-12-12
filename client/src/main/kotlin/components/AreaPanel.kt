@@ -5,20 +5,18 @@ import kotlinx.css.properties.borderLeft
 import kotlinx.html.js.onClickFunction
 import react.PropsWithChildren
 import react.fc
-import styled.css
-import styled.styledDiv
-import styled.styledH2
-import styled.styledP
+import styled.*
 import templates.style.grayTextWithAction
 import utils.geometry.Area
 import kotlin.math.roundToInt
 
-interface AreaPanelProps : PropsWithChildren {
+external interface AreaPanelProps : PropsWithChildren {
     var areas: List<Area>
     var scale: Double
     var selectedArea: Int?
     var selectArea: (Int) -> Unit
     var dropArea: (Int) -> Unit
+    var nextStage: () -> Unit
 }
 
 val areaPanel = fc<AreaPanelProps> { props ->
@@ -53,5 +51,12 @@ val areaPanel = fc<AreaPanelProps> { props ->
                 +"(Сбросить контур)"
             }
         }
+    }
+    if (props.areas.sumOf { it.points.size } > 2 && props.scale != 0.0) styledButton {
+        css.marginTop = 10.px
+        attrs.onClickFunction = {
+            props.nextStage()
+        }
+        +"Построить схему моноплиты"
     }
 }

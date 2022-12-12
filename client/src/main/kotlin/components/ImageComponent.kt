@@ -6,7 +6,7 @@ import kotlinx.css.properties.border
 import kotlinx.css.properties.lh
 import kotlinx.html.js.onClickFunction
 import kotlinx.html.js.onMouseDownFunction
-import modes.Mode
+import stages.MarkingMode
 import org.w3c.dom.events.MouseEvent
 import react.Props
 import react.dom.attrs
@@ -25,7 +25,7 @@ import utils.toMouseEvent
 
 external interface ImageComponentProps : Props {
     var src: String
-    var mode: Mode?
+    var mode: MarkingMode?
     var areas: List<Area>
     var controlPoints: List<Point>
     var click: (Point) -> Unit
