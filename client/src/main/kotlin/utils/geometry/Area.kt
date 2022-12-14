@@ -31,5 +31,21 @@ data class Area(
         return emptySequence()
     }
 
+    fun angles(): List<Angle> {
+        if (points.size < 3)
+            return listOf()
+
+        var angle = Angle(
+            points[points.size - 3],
+            points[points.size - 2],
+            points[points.size - 1]
+        )
+
+        return points.map { point ->
+            angle = Angle(angle.center, angle.right, point)
+            return@map angle
+        }
+    }
+
     private fun isNotEmpty() = points.isNotEmpty()
 }

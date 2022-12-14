@@ -66,6 +66,10 @@ val imageComponent = fc<ImageComponentProps> { props ->
                 height = 100.pct
             }
 
+            area.angles().forEach {
+                angle(it)
+            }
+
             area.points.forEachIndexed { index, point ->
                 point(point, index, movePoint = props.movePoint)
             }

@@ -16,5 +16,6 @@ data class Point(
 
     companion object {
         val zero = Point(0.0, 0.0)
+        val unit = Point(1.0, 0.0)
     }
 }
