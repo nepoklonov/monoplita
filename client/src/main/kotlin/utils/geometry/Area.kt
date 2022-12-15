@@ -1,6 +1,7 @@
 package utils.geometry
 
 import kotlin.math.absoluteValue
+import kotlin.math.sign
 
 data class Area(
     val points: List<Point> = emptyList()
@@ -17,19 +18,37 @@ data class Area(
             p1.distanceTo(p2)
         }
 
-    val square: Double
+    private val signedSquare: Double
         get() = asPairSequence().sumOf { (p1, p2) ->
             val (x1, y1) = p1
             val (x2, y2) = p2
             x1 * y2 - y1 * x2
-        }.absoluteValue / 2
+        } / 2
 
-    fun toSvgPath() = points.joinToString(separator = " ") { (x, y) -> "$x,$y" }
+    val sign: Double get() = sign(signedSquare)
 
-    private fun asPairSequence(): Sequence<Pair<Point, Point>> {
-        if (isNotEmpty()) return (points.asSequence() + points[0]).zipWithNext()
+    val square: Double get() = signedSquare.absoluteValue
+
+    fun toSvgPath() = points.joinToString(separator = " ")
+
+    fun asPairSequence(): Sequence<Pair<Point, Point>> {
+        if (points.size >= 2) return (points.asSequence() + points[0]).zipWithNext()
         return emptySequence()
     }
 
-    private fun isNotEmpty() = points.isNotEmpty()
+    fun asTripleSequence(): List<PointTriple> {
+        if (points.size < 3)
+            return listOf()
+
+        var pointTriple = PointTriple(
+            points[points.size - 3],
+            points[points.size - 2],
+            points[points.size - 1]
+        )
+
+        return points.map { point ->
+            pointTriple = PointTriple(pointTriple.second, pointTriple.third, point)
+            return@map pointTriple
+        }
+    }
 }

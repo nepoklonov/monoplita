@@ -9,4 +9,13 @@ data class Point(
     fun distanceTo(other: Point): Double {
         return hypot(x - other.x, y - other.y)
     }
+
+    override fun toString(): String {
+        return "$x, $y"
+    }
+
+    companion object {
+        val zero = Point(0.0, 0.0)
+        val one = Point(1.0, 0.0)
+    }
 }
