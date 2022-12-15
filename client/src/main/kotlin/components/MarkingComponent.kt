@@ -55,7 +55,6 @@ val markingComponent = fc<MarkingComponentProps> { props ->
         attrs.scale = props.scale
         attrs.controlPoints = controlPoints.toList().filterNotNull()
         attrs.movePoint = { pointIndex: Int, point: Point ->
-            console.log(pointIndex)
             props.setAreas(props.areas.toMutableList().also {
                 selectedArea?.let { index ->
                     it[index] = it[index].movePoint(pointIndex, point)
