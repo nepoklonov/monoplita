@@ -1,4 +1,4 @@
-package utils.svg
+package templates.svg
 
 import kotlinx.browser.document
 import kotlinx.html.SVG
@@ -7,10 +7,12 @@ import org.w3c.dom.events.MouseEvent
 import react.dom.RDOMBuilder
 import utils.geometry.Point
 import utils.geometry.p
+import utils.svg.circle
+
 
 const val pointSize = 3.0
 
-fun RDOMBuilder<SVG>.point(
+fun RDOMBuilder<SVG>.draggablePoint(
     point: Point, index: Int, movePoint: (pointIndex: Int, Point) -> Unit
 ) = circle {
     attrs.cx = point.x

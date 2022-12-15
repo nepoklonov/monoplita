@@ -14,13 +14,8 @@ data class Point(
         return "$x, $y"
     }
 
-    /** Calculates point in the middle*/
-    operator fun minus(other: Point): Point {
-        return Point((x + other.x) / 2, (y + other.y) / 2)
-    }
-
     companion object {
         val zero = Point(0.0, 0.0)
-        val unit = Point(1.0, 0.0)
+        val one = Point(1.0, 0.0)
     }
 }

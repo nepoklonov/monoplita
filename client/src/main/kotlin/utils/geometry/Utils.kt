@@ -1,45 +1,33 @@
 package utils.geometry
 
-import kotlin.math.PI
 import kotlin.math.cos
-import kotlin.math.sign
+import kotlin.math.hypot
 import kotlin.math.sin
 
 infix fun Number.p(other: Number) = Point(this.toDouble(), other.toDouble())
+fun center(first: Point, second: Point) = Point((first.x + second.x) / 2, (first.y + second.y) / 2)
 
-infix fun Point.vec(other: Point): Point {
-    return other.x - this.x p other.y - this.y
+operator fun Point.plus(polarCoordinates: PolarCoordinates): Point {
+    return Point(x + (polarCoordinates.r * cos(polarCoordinates.phi.radians)), y + (polarCoordinates.r * sin(polarCoordinates.phi.radians)))
 }
 
-fun Double.toDegrees(): Double = this * 180.0 / PI
-
-fun vectorAngle(point1: Point, point2: Point): Double {
-    val vector = point1 vec point2
-    val rad = Angle(vector, Point.zero, Point.unit).measureRad * vector.y.sign
-    return rad.toDegrees()
+fun Vector.polarCoordinates(): PolarCoordinates {
+    val angle = ((PointTriple(Point(x, y), Point.zero, Point.one).angle.degrees + 360) % 360).deg
+    return PolarCoordinates(abs(), angle)
 }
 
-fun polarToCartesian(point: Point, radius: Double, angleInDegrees: Double): Point {
-    val angleInRadians = (angleInDegrees) * PI / 180.0
+fun PointTriple.reverse() = PointTriple(third, second, first)
 
-    return Point(point.x + (radius * cos(angleInRadians)),
-        point.y + (radius * sin(angleInRadians)))
+//will be removed after merge
+data class Vector(
+    val x: Double,
+    val y: Double
+) {
+    fun abs() = hypot(x, y)
+    fun normalize() = Vector(x / abs(), y / abs())
+    operator fun times(n: Number) = Vector(x * n.toDouble(), y * n.toDouble())
 }
 
-fun describeArc(point: Point, radius: Double, startAngle: Double, endAngle: Double): String {
-    val start = polarToCartesian(point, radius, endAngle)
-    val end = polarToCartesian(point, radius, startAngle)
+operator fun Point.plus(vector: Vector) = Point(x + vector.x, y + vector.y)
 
-    val largeArcFlag = "0"/*if (endAngle >= startAngle) {
-        if (endAngle - startAngle <= 180) "0" else "1"
-    } else {
-        if ((endAngle + 360.0) - startAngle <= 180) "0" else "1"
-    }*/
-
-    return listOf(
-        "M", point,
-        "L", start,
-        "A", radius, radius, 0, largeArcFlag, 0, end,
-        "L", point
-    ).joinToString(" ")
-}
+fun Point.directionTo(other: Point) = Vector(other.x - x, other.y - y)

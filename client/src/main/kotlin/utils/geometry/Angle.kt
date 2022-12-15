@@ -1,38 +1,26 @@
 package utils.geometry
 
-import kotlin.math.*
+import kotlin.math.PI
 
-data class Angle(
-    val left: Point,
-    val center: Point,
-    val right: Point
+open class Angle protected constructor(
+    val radians: Double,
+    val degrees: Double
 ) {
-    /** Angle measure in radians */
-    val measureRad: Double
-        get() {
-            val a = center vec left
-            val b = center vec right
+    operator fun plus(other: Angle) = Angle(radians + other.radians, degrees + other.degrees)
+    operator fun minus(other: Angle) = Angle(radians - other.radians, degrees - other.degrees)
+    operator fun times(coefficient: Number) = Angle(
+        radians * coefficient.toDouble(),
+        degrees * coefficient.toDouble()
+    )
 
-            return acos(
-                (a.x * b.x + a.y * b.y) /
-                        (a.distanceTo(Point.zero) * b.distanceTo(Point.zero))
-            )
-        }
-
-    val measureDeg: Double
-        get() = measureRad.toDegrees()
-
-    val leftAngle
-        get() = vectorAngle(center, left)
-
-    val rightAngle
-        get() = vectorAngle(center, right)
-
-    /** In degrees */
-    val startAngle: Double
-        get() = min(leftAngle, rightAngle)
-
-    /** In degrees */
-    val endAngle: Double
-        get() = max(leftAngle, rightAngle)
+    operator fun div(coefficient: Number) = Angle(
+        radians / coefficient.toDouble(),
+        degrees / coefficient.toDouble()
+    )
 }
+
+class Radians(value: Double) : Angle(value, value * 180 / PI)
+class Degrees(value: Double) : Angle(value * PI / 180, value)
+
+val Number.deg get() = Degrees(toDouble())
+val Number.radians get() = Radians(toDouble())

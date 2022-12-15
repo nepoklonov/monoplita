@@ -52,6 +52,7 @@ val markingComponent = fc<MarkingComponentProps> { props ->
         attrs.mode = currentMode
         attrs.src = props.imageUrl
         attrs.areas = props.areas
+        attrs.scale = props.scale
         attrs.controlPoints = controlPoints.toList().filterNotNull()
         attrs.movePoint = { pointIndex: Int, point: Point ->
             console.log(pointIndex)

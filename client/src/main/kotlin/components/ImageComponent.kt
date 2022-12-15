@@ -12,16 +12,22 @@ import styled.css
 import styled.styledDiv
 import styled.styledImg
 import styled.styledSvg
+import templates.svg.angleArc
+import templates.svg.draggablePoint
+import templates.svg.geometryText
 import utils.geometry.Area
 import utils.geometry.Point
+import utils.geometry.center
 import utils.geometry.p
 import utils.svg.*
 import utils.toMouseEvent
+import kotlin.math.roundToInt
 
 external interface ImageComponentProps : Props {
     var src: String
     var mode: MarkingMode?
     var areas: List<Area>
+    var scale: Double
     var controlPoints: List<Point>
     var click: (Point) -> Unit
     var movePoint: (pointIndex: Int, Point) -> Unit
@@ -63,16 +69,16 @@ val imageComponent = fc<ImageComponentProps> { props ->
                 height = 100.pct
             }
 
-            area.angles().forEach {
-                angle(it)
+            area.asTripleSequence().forEach {
+                angleArc(it, area.sign)
             }
 
             area.points.forEachIndexed { index, point ->
-                point(point, index, movePoint = props.movePoint)
+                draggablePoint(point, index, movePoint = props.movePoint)
             }
 
             area.asPairSequence().forEach { (a, b) ->
-                text((b - a), a.distanceTo(b).toInt().toString(), "edge-text")
+                geometryText(center(a, b), (a.distanceTo(b) * props.scale).roundToInt().toString())
             }
 
             props.controlPoints.forEach { (x, y) -> circle(x, y, 3) { attrs.fill = "#aaffaa" } }
