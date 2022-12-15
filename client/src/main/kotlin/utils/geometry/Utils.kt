@@ -1,14 +1,17 @@
 package utils.geometry
 
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sign
-import kotlin.math.sin
+import kotlin.math.*
+
+const val eps = 0.0001
 
 infix fun Number.p(other: Number) = Point(this.toDouble(), other.toDouble())
 
 infix fun Point.vec(other: Point): Point {
     return other.x - this.x p other.y - this.y
+}
+
+infix fun Double.eq(other: Double): Boolean {
+    return abs(this - other) < eps
 }
 
 fun Double.toDegrees(): Double = this * 180.0 / PI
@@ -30,7 +33,7 @@ fun describeArc(point: Point, radius: Double, startAngle: Double, endAngle: Doub
     val start = polarToCartesian(point, radius, endAngle)
     val end = polarToCartesian(point, radius, startAngle)
 
-    val largeArcFlag = "0"/*if (endAngle >= startAngle) {
+    val largeArcFlag = "1"/*if (endAngle >= startAngle) {
         if (endAngle - startAngle <= 180) "0" else "1"
     } else {
         if ((endAngle + 360.0) - startAngle <= 180) "0" else "1"
