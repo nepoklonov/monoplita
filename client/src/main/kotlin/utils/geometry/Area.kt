@@ -1,7 +1,6 @@
 package utils.geometry
 
 import kotlin.math.absoluteValue
-//import kotlin.math.max
 import kotlin.math.sign
 
 data class Area(
