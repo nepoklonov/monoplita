@@ -23,7 +23,7 @@ open class Line(
 
     /**Checks if line intersects vector (essentially checks if an intersecton point
      * of two lines lies on vector)*/
-    open fun intersects(vector: Vector): Boolean {
+    open fun intersects(vector: Segment): Boolean {
         val intersection = intersection(vector.line) ?: return false
         //"||" to cover vertical and horizontal cases where it is possible that oly
         //one condition be fulfilled
@@ -62,7 +62,7 @@ class Ray(
     private val start: Point,
     private val end: Point
 ) : Line(start, end) {
-    constructor(vector: Vector) : this(vector.start, vector.end)
+    constructor(vector: Segment) : this(vector.start, vector.end)
 
     private val xRange: ClosedFloatingPointRange<Double>
         get() = start.x..(if ((start vec end).x > 0.0) Double.POSITIVE_INFINITY else Double.NEGATIVE_INFINITY)
@@ -72,7 +72,7 @@ class Ray(
         get() = start.y..(if ((start vec end).y > 0.0) Double.POSITIVE_INFINITY else Double.NEGATIVE_INFINITY)
 
 
-    override fun intersects(vector: Vector): Boolean {
+    override fun intersects(vector: Segment): Boolean {
         this.intersection(vector.line) ?: return false
         return super.intersects(vector)
     }

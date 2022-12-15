@@ -3,7 +3,7 @@ package utils.geometry
 import kotlin.math.max
 import kotlin.math.min
 
-data class Vector(
+data class Segment(
     val start: Point = Point.zero,
     val end: Point
 ) {
