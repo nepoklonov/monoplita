@@ -26,7 +26,7 @@ data class Area(
 
     fun toSvgPath() = points.joinToString(separator = " ")
 
-    private fun asPairSequence(): Sequence<Pair<Point, Point>> {
+    fun asPairSequence(): Sequence<Pair<Point, Point>> {
         if (isNotEmpty()) return (points.asSequence() + points[0]).zipWithNext()
         return emptySequence()
     }

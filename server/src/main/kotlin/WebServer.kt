@@ -14,6 +14,12 @@ fun Application.module() {
                 head {
                     style {
                         unsafe {
+                            raw(".angle-text { " +
+                                    "font: italic 6px sans-serif; " +
+                                    "}" +
+                                    ".edge-text {" +
+                                    "font: italic 6px sans-serif;" +
+                                    "}")
                             +GlobalStyles.inject()
                         }
                     }
